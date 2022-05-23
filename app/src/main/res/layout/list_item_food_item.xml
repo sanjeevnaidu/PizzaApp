@@ -6,19 +6,20 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:elevation="8dp"
-    app:cardCornerRadius="8dp"
     android:outlineAmbientShadowColor="@color/cardview_dark_background"
+    app:cardCornerRadius="8dp"
     tools:targetApi="p">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/imgFoodItem"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:contentDescription="@string/food_item"
             android:src="@drawable/pizza"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,50 +60,28 @@
             app:layout_constraintStart_toStartOf="@+id/txtFoodTitle"
             app:layout_constraintTop_toBottomOf="@+id/txtFoodDescription" />-->
 
-        <!--<Button
-            android:id="@+id/btnRemove"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="5dp"
-            android:backgroundTint="@color/teal_200"
-            android:text="@string/remove"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/txtFoodPrice"
-            app:layout_constraintTop_toBottomOf="@+id/txtFoodPrice" />
-
-        <TextView
-            android:id="@+id/txtCount"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="@string/_0"
-            android:gravity="center"
-            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
-            app:layout_constraintStart_toEndOf="@+id/btnRemove"
-            app:layout_constraintTop_toBottomOf="@+id/txtFoodPrice" />
-
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="5dp"
-            android:backgroundTint="@color/teal_200"
-            android:text="@string/add"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toEndOf="@+id/txtFoodPrice"
-            app:layout_constraintTop_toBottomOf="@+id/txtFoodPrice" />-->
-
         <Button
             android:id="@+id/btnAddToCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
             android:backgroundTint="@color/teal_200"
             android:text="@string/add_to_cart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/txtFoodDescription"
             app:layout_constraintStart_toStartOf="@+id/txtFoodDescription"
             app:layout_constraintTop_toBottomOf="@+id/txtFoodDescription" />
+
+        <ImageView
+            android:id="@+id/imgIsVeg"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_isveg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/imgisveg" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
