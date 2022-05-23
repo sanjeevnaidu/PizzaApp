@@ -3,10 +3,17 @@ package com.startup.ipsatorpizzaapp.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.startup.ipsatorpizzaapp.R
 import com.startup.ipsatorpizzaapp.`interface`.APIService
+import com.startup.ipsatorpizzaapp.adapter.FoodItemsAdapter
+import com.startup.ipsatorpizzaapp.data_classes.Pizza_data
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,41 +29,70 @@ class MainActivity : AppCompatActivity() {
     lateinit var txtCount: TextView*/
     private val BaseURl = "https://625bbd9d50128c570206e502.mockapi.io/api/v1/"
 
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    lateinit var recyclerView: RecyclerView
+    lateinit var progressBar: ProgressBar
+
+    private lateinit var foodItemsList: ArrayList<Pizza_data>
+    private lateinit var foodItemsAdapter: FoodItemsAdapter
+
+    //private lateinit var imgPullIndicator: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        setContentView(R.layout.list_item_food_item)
+        setContentView(R.layout.activity_main)
 
-        /*btnAdd = findViewById(R.id.btnAdd)
-        btnRemove = findViewById(R.id.btnRemove)
-        txtCount = findViewById(R.id.txtCount)*/
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh)
+        progressBar = findViewById(R.id.progressBar)
+        recyclerView = findViewById(R.id.recyclerViewFoodItems)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        /*btnAdd.setOnClickListener {
-            var count = txtCount.text.toString().toInt()
-            count++
-            txtCount.text = count.toString()
-        }
+        //imgPullIndicator = findViewById(R.id.imgPullIndicator)
 
-        btnRemove.setOnClickListener {
-            var count = txtCount.text.toString().toInt()
-            if (count!=0){
-                count--
-                txtCount.text = count.toString()
-            }
-        }*/
+        progressBar.isVisible = true
 
-        btnAddToCart = findViewById(R.id.btnAddToCart)
+        foodItemsList = arrayListOf()
 
-        btnAddToCart.setOnClickListener {
+        swipeRefreshLayout.setOnRefreshListener {
             getFoodData()
         }
 
+        /*val bottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottomSheetMain))
+            .apply {
+                peekHeight = 130
+                this.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
 
+        val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                // Do something for new state.
+                //Toast.makeText(this@MainActivity, newState.toString(), Toast.LENGTH_SHORT).show()
+                imgPullIndicator.isVisible = newState != 3
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // Do something for slide offset.
+                //Toast.makeText(this@MainActivity, "Bottom Sheet is sliding", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // To add the callback:
+        bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)*/
+
+        // To remove the callback:
+        //bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallback)
 
     }
 
     override fun onResume() {
+        getFoodData()
         super.onResume()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
     }
 
     private fun getFoodData(){
@@ -67,56 +103,40 @@ class MainActivity : AppCompatActivity() {
 
         val service = retrofit.create(APIService::class.java)
 
+        foodItemsList.clear()
+
         CoroutineScope(Dispatchers.IO).launch {
             val response = service.getPizzaNested()
 
             withContext(Dispatchers.Main){
                 if(response.isSuccessful){
 
-                    val items = response.body()?.crusts
+                    val items = response.body()
                     if (items != null){
-                        for (i in 0 until items.count()){
+                        foodItemsList.add(items)
+                        foodItemsAdapter = FoodItemsAdapter(foodItemsList)
+                        recyclerView.adapter = foodItemsAdapter
+                        swipeRefreshLayout.isRefreshing = false
+                        /*for (i in 0 until items.count()){
                             Toast.makeText(this@MainActivity, items[i].name.toString(), Toast.LENGTH_SHORT).show()
-                        }
+                        }*/
+                    } else {
+                        foodItemsAdapter = FoodItemsAdapter(foodItemsList)
+                        recyclerView.adapter = foodItemsAdapter
+                        swipeRefreshLayout.isRefreshing = false
+                        Toast.makeText(this@MainActivity, response.code().toString() , Toast.LENGTH_SHORT).show()
                     }
 
+                } else {
+                    foodItemsAdapter = FoodItemsAdapter(foodItemsList)
+                    recyclerView.adapter = foodItemsAdapter
+                    swipeRefreshLayout.isRefreshing = false
+                    Toast.makeText(this@MainActivity, response.code().toString() , Toast.LENGTH_SHORT).show()
                 }
+            }
+            if (progressBar.isVisible) {
+                progressBar.isVisible = false
             }
         }
     }
-
-    /*private fun getWeatherData() {
-        val weatherApi = getString(R.string.WEATHER_API_KEY)
-        val finalUrl =
-            "http://api.weatherapi.com/v1/current.json?key=$weatherApi&q=Silvassa" //weatherUrl + weatherApi + "&q=" + txtLocation.text.toString() // + "&aqi=no"
-
-        val stringRequest = StringRequest(com.android.volley.Request.Method.GET, finalUrl, {
-            //Log.d("response",it)
-            try {
-                val jsonResponse = JSONObject(it)
-                val currentObject = jsonResponse.getJSONObject("current")
-                txtTemperature.text = currentObject.getDouble("temp_c").toString() + "°C"
-                txtClimate.text =
-                    getString(R.string.climate) + " " + currentObject.getJSONObject("condition")
-                        .getString("text")
-                txtHumidity.text =
-                    getString(R.string.humidity) + " " + currentObject.getDouble("humidity")
-                        .toString()
-                txtWind.text = getString(R.string.wind) + " " + currentObject.getDouble("wind_kph")
-                    .toString() + " kph"
-
-                val weatherImageUri =
-                    "https:" + currentObject.getJSONObject("condition").getString("icon")
-                //Toast.makeText(this, weatherImageUri, Toast.LENGTH_SHORT).show()
-                //Glide.with(this).load(Uri.parse(weatherImageUri)).into(imgWeather)
-                Picasso.get().load(Uri.parse(weatherImageUri)).into(imgWeather)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        }, {
-            Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
-        })
-
-        Volley.newRequestQueue(this).add(stringRequest)
-    }*/
 }

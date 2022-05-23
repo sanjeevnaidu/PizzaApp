@@ -7,5 +7,9 @@
     <string name="add">+</string>
     <string name="remove">-</string>
     <string name="_0">0</string>
-    <string name="add_to_cart">Add</string>
+    <string name="add_to_cart">Add Custom Pizza</string>
+    <string name="select_a_crust">Select a crust*</string>
+    <string name="imgisveg">imgIsVeg</string>
+    <string name="crust_size">Crust Size</string>
+    <string name="select_a_crust_size">Select a crust size</string>
 </resources>
