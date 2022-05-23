@@ -42,6 +42,7 @@ class FoodItemsAdapter(private val foodItemsList: ArrayList<Pizza_data>) :
             val intent = Intent(holder.itemView.context, AddToCartActivity::class.java)
             intent.putExtra("selectedPizza", foodItemDetails.name)
             intent.putExtra("position", position)
+            intent.putExtra("isVeg", foodItemDetails.isVeg)
 
             holder.itemView.context.startActivity(intent)
         }

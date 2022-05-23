@@ -1,6 +1,7 @@
 package com.startup.ipsatorpizzaapp.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +11,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.startup.ipsatorpizzaapp.R
 import com.startup.ipsatorpizzaapp.data_classes.Size
 
+
 class CrustSizesAdapter(private val crustSizesList: ArrayList<Size>) :
     RecyclerView.Adapter<CrustSizesAdapter.CrustSizesViewHolder>() {
+
+    private var adapterCallback: AdapterCallback? = null
+
+    fun CrustSizesAdapter(context: Context) {
+        adapterCallback = try {
+            context as AdapterCallback
+        } catch (e: ClassCastException) {
+            throw ClassCastException("Activity must implement AdapterCallback.")
+        }
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -33,6 +46,13 @@ class CrustSizesAdapter(private val crustSizesList: ArrayList<Size>) :
             var count = holder.txtCount.text.toString().toInt()
             count++
             holder.txtCount.text = count.toString()
+            if (count == 1){
+                try {
+                    adapterCallback?.onMethodCallback()
+                } catch (e: java.lang.ClassCastException) {
+                    // do something
+                }
+            }
         }
 
         holder.btnRemove.setOnClickListener {
@@ -40,6 +60,13 @@ class CrustSizesAdapter(private val crustSizesList: ArrayList<Size>) :
             if (count != 0) {
                 count--
                 holder.txtCount.text = count.toString()
+                if (count == 0){
+                    try {
+                        adapterCallback?.onMethodCallback()
+                    } catch (e: java.lang.ClassCastException) {
+                        // do something
+                    }
+                }
             }
         }
     }
@@ -56,6 +83,10 @@ class CrustSizesAdapter(private val crustSizesList: ArrayList<Size>) :
         val btnAdd: Button = itemView.findViewById(R.id.btnAdd)
         val btnRemove: Button = itemView.findViewById(R.id.btnRemove)
         val txtCount: TextView = itemView.findViewById(R.id.txtCount)
+    }
+
+    interface AdapterCallback {
+        fun onMethodCallback()
     }
 
 }
