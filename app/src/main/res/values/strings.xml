@@ -3,4 +3,9 @@
     <string name="title">Title</string>
     <string name="food_item">food item</string>
     <string name="price">Price</string>
+    <string name="description">Description</string>
+    <string name="add">+</string>
+    <string name="remove">-</string>
+    <string name="_0">0</string>
+    <string name="add_to_cart">Add</string>
 </resources>

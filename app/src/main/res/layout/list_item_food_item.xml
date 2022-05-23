@@ -7,7 +7,8 @@
     android:layout_margin="16dp"
     android:elevation="8dp"
     app:cardCornerRadius="8dp"
-    tools:targetApi="lollipop">
+    android:outlineAmbientShadowColor="@color/cardview_dark_background"
+    tools:targetApi="p">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,42 +16,93 @@
 
         <ImageView
             android:id="@+id/imgFoodItem"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="15dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/food_item"
+            android:src="@drawable/pizza"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/food_item" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtFoodTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
+            android:layout_marginTop="15dp"
             android:text="@string/title"
             android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/imgFoodItem"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/imgFoodItem"
+            app:layout_constraintStart_toStartOf="@+id/imgFoodItem"
+            app:layout_constraintTop_toBottomOf="@+id/imgFoodItem" />
 
         <TextView
+            android:id="@+id/txtFoodDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/description"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/txtFoodTitle"
+            app:layout_constraintStart_toStartOf="@+id/txtFoodTitle"
+            app:layout_constraintTop_toBottomOf="@+id/txtFoodTitle" />
+
+        <!--<TextView
             android:id="@+id/txtFoodPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:text="@string/price"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/imgFoodItem"
-            app:layout_constraintTop_toBottomOf="@+id/txtFoodTitle" />
+            app:layout_constraintEnd_toEndOf="@+id/txtFoodTitle"
+            app:layout_constraintStart_toStartOf="@+id/txtFoodTitle"
+            app:layout_constraintTop_toBottomOf="@+id/txtFoodDescription" />-->
 
+        <!--<Button
+            android:id="@+id/btnRemove"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="@color/teal_200"
+            android:text="@string/remove"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/txtFoodPrice"
+            app:layout_constraintTop_toBottomOf="@+id/txtFoodPrice" />
 
+        <TextView
+            android:id="@+id/txtCount"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="@string/_0"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
+            app:layout_constraintStart_toEndOf="@+id/btnRemove"
+            app:layout_constraintTop_toBottomOf="@+id/txtFoodPrice" />
 
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/teal_200"
+            android:text="@string/add"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@+id/txtFoodPrice"
+            app:layout_constraintTop_toBottomOf="@+id/txtFoodPrice" />-->
+
+        <Button
+            android:id="@+id/btnAddToCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/teal_200"
+            android:text="@string/add_to_cart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/txtFoodDescription"
+            app:layout_constraintStart_toStartOf="@+id/txtFoodDescription"
+            app:layout_constraintTop_toBottomOf="@+id/txtFoodDescription" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
